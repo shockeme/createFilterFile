@@ -25,6 +25,11 @@ namespace createFilterFile
             badwords.Add("bitch");
             badwords.Add("fuck");
             badwords.Add(" ass");
+            badwords.Add("asshole");
+            badwords.Add(" ass.");
+            badwords.Add(" ass!");
+            badwords.Add(" ass?");
+            badwords.Add(" ass ");
             badwords.Add("pussy");
         }
 

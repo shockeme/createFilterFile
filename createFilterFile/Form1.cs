@@ -62,6 +62,7 @@ namespace createFilterFile
 
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(textBox1.Text))
                 {
+                    file.WriteLine("1");
                     for (int i = 0; i < badwordlist.Count; i++)
                     {
                         file.WriteLine(badwordlist[i]); 

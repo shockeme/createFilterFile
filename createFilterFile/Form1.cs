@@ -19,18 +19,32 @@ namespace createFilterFile
         public Form1()
         {
             InitializeComponent();
-            badwords.Add("shit");
-            badwords.Add("bullshit");
-            badwords.Add("damn");
-            badwords.Add("bitch");
-            badwords.Add("fuck");
-            badwords.Add(" ass");
-            badwords.Add("asshole");
-            badwords.Add(" ass.");
-            badwords.Add(" ass!");
-            badwords.Add(" ass?");
-            badwords.Add(" ass ");
-            badwords.Add("pussy");
+
+            string path = Directory.GetCurrentDirectory();
+            string curFile = path + "\\badwords.txt";
+
+            // either use a badwords.txt file or use this internal list. I prefer the file since you can add badwords without having to recompile
+            if (File.Exists(curFile))
+            {
+                string text = System.IO.File.ReadAllText(curFile);
+                String[] words = text.Split(',');
+                foreach (string word in words)
+                    badwords.Add(word);
+            } else {
+                 badwords.Add("shit");
+                 badwords.Add("bullshit");
+                 badwords.Add("damn");
+                 badwords.Add("bitch");
+                 badwords.Add("fuck");
+                 badwords.Add(" ass");
+                 badwords.Add("asshole");
+                 badwords.Add(" ass.");
+                 badwords.Add(" ass!");
+                 badwords.Add(" ass?");
+                 badwords.Add(" ass ");
+                 badwords.Add("pussy");
+                 badwords.Add("dick");
+            }            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -70,7 +84,8 @@ namespace createFilterFile
                 }
                 badwordlist.Clear();
 
-                MessageBox.Show("All Done!!");          }
+                MessageBox.Show("All Done!!\r\nFilter File is: " + textBox1.Text);
+            }
         }
         private Boolean FindWord(List<string> badwords, string sentence)
         {

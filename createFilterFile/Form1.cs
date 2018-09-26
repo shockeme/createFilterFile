@@ -31,20 +31,24 @@ namespace createFilterFile
                 foreach (string word in words)
                     badwords.Add(word);
             } else {
-                 badwords.Add("shit");
-                 badwords.Add("bullshit");
-                 badwords.Add("damn");
-                 badwords.Add("bitch");
-                 badwords.Add("fuck");
-                 badwords.Add(" ass");
-                 badwords.Add("asshole");
-                 badwords.Add(" ass.");
-                 badwords.Add(" ass!");
-                 badwords.Add(" ass?");
-                 badwords.Add(" ass ");
-                 badwords.Add("pussy");
-                 badwords.Add("dick");
-            }            
+                badwords.Add("shit");
+                badwords.Add("bullshit");
+                badwords.Add("damn");
+                badwords.Add("bitch");
+                badwords.Add("motherfucker");
+                badwords.Add("fuck");
+                badwords.Add("fucking");
+                badwords.Add(" ass");
+                badwords.Add("asshole");
+                badwords.Add(" ass.");
+                badwords.Add(" ass!");
+                badwords.Add(" ass?");
+                badwords.Add(" ass ");
+                badwords.Add("pussy");
+                badwords.Add("dick");
+                badwords.Add("bastard");
+                badwords.Add("dammit");
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -56,13 +60,15 @@ namespace createFilterFile
             {
                 StreamReader myFilterFile = new StreamReader(openFileDialog1.FileName);
                 int j = 0;
+
+                // load the entire text file into an array
                 do
                 {
                     data.Add(myFilterFile.ReadLine());
                 } while (!myFilterFile.EndOfStream);
                 myFilterFile.Close();
 
-
+                // check each line of the array for a bad word, then rewind to grab the timestamp. Then restore the array counter to continue to next sentence.
                 for (int i =0; i < data.Count; i++) {
                     if (FindWord(badwords, data[i]) == true)
                     {
@@ -71,8 +77,9 @@ namespace createFilterFile
                         badwordlist.Add("mute;" + data[i]);
                         i = j; // restore the current array position 
                     }
-                } 
-            
+                }
+
+                // write out the filter file
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(textBox1.Text))
                 {
                     file.WriteLine("1");
@@ -86,6 +93,8 @@ namespace createFilterFile
                 MessageBox.Show("All Done!!\r\nFilter File is: " + textBox1.Text);
             }
         }
+
+        // Search the submitted string for all of the badwords in the badword array
         private Boolean FindWord(List<string> badwords, string sentence)
         {
             if (sentence == null)

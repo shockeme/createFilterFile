@@ -49,31 +49,30 @@ namespace createFilterFile
 
         private void button1_Click(object sender, EventArgs e)
         {
+            List<string> data = new List<string>();
+
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 StreamReader myFilterFile = new StreamReader(openFileDialog1.FileName);
+                int j = 0;
                 do
                 {
-                   
-                    string number = myFilterFile.ReadLine();
-                    string timestamp = myFilterFile.ReadLine();
-                    string sentence = myFilterFile.ReadLine();
-                    string space = myFilterFile.ReadLine();
-                    string nextspace = "";
-
-                    if (space != "")
-                        nextspace = myFilterFile.ReadLine();
-
-                    if (FindWord(badwords, sentence) == true)
-                        badwordlist.Add("mute;" + timestamp);
-
-                    if(FindWord(badwords, space) == true)
-                        badwordlist.Add("mute;" + timestamp);
-
+                    data.Add(myFilterFile.ReadLine());
                 } while (!myFilterFile.EndOfStream);
                 myFilterFile.Close();
 
+
+                for (int i =0; i < data.Count; i++) {
+                    if (FindWord(badwords, data[i]) == true)
+                    {
+                        j = i; // store the current array position
+                        while (data[i].Contains("-->") == false) i--;
+                        badwordlist.Add("mute;" + data[i]);
+                        i = j; // restore the current array position 
+                    }
+                } 
+            
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(textBox1.Text))
                 {
                     file.WriteLine("1");

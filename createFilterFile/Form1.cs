@@ -72,9 +72,24 @@ namespace createFilterFile
                 for (int i =0; i < data.Count; i++) {
                     if (FindWord(badwords, data[i]) == true)
                     {
+                        string finalstring;
                         j = i; // store the current array position
                         while (data[i].Contains("-->") == false) i--;
-                        badwordlist.Add("mute;" + data[i]);
+
+                        // adjust data value to go up to next value if > 100
+                        string[] parts = data[i].Split(',');
+                        if (Int16.Parse(parts[2]) > 100)
+                        {
+                            string[] parts2 = parts[1].Split(':');
+                            int value = Int16.Parse(parts2[2]) + 1;
+                            string finalvalue = value.ToString("D2");
+                            finalstring = parts[0] + "," + parts2[0] + ":" + parts2[1] + ":" + finalvalue + ",000";
+                        }
+                        else
+                            finalstring = data[i];
+
+//                        badwordlist.Add("mute;" + data[i]);
+                        badwordlist.Add("mute;" + finalstring);
                         i = j; // restore the current array position 
                     }
                 }
